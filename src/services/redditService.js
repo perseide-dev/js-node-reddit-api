@@ -12,10 +12,20 @@ const fetchAndStoreReddits = async () => {
   await Reddit.bulkCreate(subreddits, { ignoreDuplicates: true });
 };
 
-const getPaginatedReddits = async (page = 1, limit = 10) => {
+const getPaginatedReddits = async (page = 1, limit = 10, q) => {
+  const where = {};
+  if (q) {
+    where[Op.or] = [
+      { name: { [Op.iLike]: `%${q}%` } },
+      { title: { [Op.iLike]: `%${q}%` } },
+      { description: { [Op.iLike]: `%${q}%` } },
+    ];
+  }
   return Reddit.findAndCountAll({
+    where,
     offset: (page - 1) * limit,
     limit,
+    order: [['name', 'ASC']],
   });
 };
 
