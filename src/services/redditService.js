@@ -1,5 +1,6 @@
 const axios = require('axios');
 const Reddit = require('../models/Reddit');
+const { Op } = require('sequelize')
 
 const fetchAndStoreReddits = async () => {
   const { data } = await axios.get('https://www.reddit.com/reddits.json');
