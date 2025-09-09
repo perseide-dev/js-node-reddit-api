@@ -6,8 +6,8 @@ exports.syncReddits = async (req, res) => {
 };
 
 exports.listReddits = async (req, res) => {
-  const { page = 1, limit = 10 } = req.query;
-  const result = await redditService.getPaginatedReddits(Number(page), Number(limit));
+  const { page = 1, limit = 10, q } = req.query;
+  const result = await redditService.getPaginatedReddits(Number(page), Number(limit), q);
   res.json(result);
 };
 
