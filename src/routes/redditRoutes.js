@@ -29,6 +29,10 @@ router.post('/sync', authMiddleware, redditController.syncReddits);
  *       - in: query
  *         name: limit
  *         schema: { type: integer, default: 10 }
+ *       - in: query
+ *         name: q
+ *         schema: { type: string }
+ *         description: Búsqueda parcial en name, title o description
  *     responses:
  *       200:
  *         description: Resultado paginado
