@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const sequelize = require('../config/database');
 const authRoutes = require('./routes/authRoutes');
 const redditRoutes = require('./routes/redditRoutes');
@@ -8,9 +9,15 @@ const swaggerSpec = require('./docs/swagger');
 const app = express();
 app.use(express.json());
 
+app.use(cors({
+  origin: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : '*',
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
+  credentials: true
+}));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/reddits', redditRoutes);
-
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 sequelize.sync().then(() => {
